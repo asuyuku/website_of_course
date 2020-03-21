@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.one.dao.MessageDao">
+
+    <select id="queryMessageById" parameterType="int" resultType="com.graduation.one.entity.Message">
+        select message.id,message.title,message.content,message.type
+        from message
+        where message.id=#{id}
+    </select>
+
+    <select id="queryMessageByType" parameterType="int" resultType="com.graduation.one.entity.Message">
+        select message.id,message.title,admin_user.user_name as userName
+        from message
+        left join admin_user on message.user_id = admin_user.admin_id
+        where  flag=1
+    </select>
+
+    <update id="updateMessageById" parameterType="com.graduation.one.entity.Message">
+        update message set
+        title=#{title},
+        content=#{content}
+        where id=#{id}
+    </update>
+
+    <insert id="addMessage" parameterType="com.graduation.one.entity.Message">
+        insert into message (title,content,type,flag) values (#{title},#{content},#{type},1)
+    </insert>
+
+
+    <update id="deleteMessageById" parameterType="com.graduation.one.entity.Message">
+        update message set
+        flag=2
+        where id=#{id}
+    </update>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.one.dao.HomeworkDao">
+
+    <select id="queryHomeworkList" resultType="com.graduation.one.entity.Homework">
+        select homework.id,homework.title,admin_user.user_name,homework.file_name as fileName from homework left join admin_user on homework.user_id=admin_user.admin_id
+    </select>
+
+    <select id="queryOneHomework" resultType="com.graduation.one.entity.Homework">
+        select * from homework where id=#{id}
+    </select>
+
+    <insert id="addHomework">
+        insert into homework (title,content,user_id,file_name) values (#{title},#{content},#{userId},#{fileName})
+    </insert>
+
+    <update id="updateHomework">
+        update homework set title=#{title},content=#{content},file_name=#{fileName} where id=#{id}
+    </update>
+</mapper>

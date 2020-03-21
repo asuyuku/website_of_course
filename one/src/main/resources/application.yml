@@ -1,0 +1,29 @@
+##Application Server
+#Application Profile
+spring:
+  profiles:
+    active: stage
+
+
+#Mybatis
+mybatis:
+  mapper-locations: classpath*:/mapper/*.xml
+  #check-config-location: true
+  #config-location: classpath:/mybatis/config/mybatis-config.xml
+  configuration:
+    map-underscore-to-camel-case: true
+#  type-aliases-package: com.indusfo.cloud.sdk
+
+##Java Web Token
+#jwt:
+#  route:
+#    authentication:
+#      path: /auth
+#  header: Authorization
+#  secret: indusfo.cloud.com.secretkey
+#  expiration: 604800
+
+server:
+  servlet:
+    context-path: /
+    

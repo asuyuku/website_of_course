@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.graduation.one.dao.AnswerDao">
+
+    <resultMap type="com.graduation.one.entity.Answer" id="AnswerMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="fileName" column="file_name" jdbcType="VARCHAR"/>
+        <result property="homeworkId" column="homework_id" jdbcType="INTEGER"/>
+        <result property="fileNameTwo" column="file_name_two" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="AnswerMap">
+        select
+          id, user_id, content, file_name, homework_id, file_name_two, status
+        from dbo.answer
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="AnswerMap">
+        select
+          id, user_id, content, file_name, homework_id, file_name_two, status
+        from dbo.answer
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="AnswerMap">
+        select
+          id, user_id, content, file_name, homework_id, file_name_two, status,user_name
+        from dbo.answer
+        left join admin_user on answer.user_id=admin_user.admin_id
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="fileName != null and fileName != ''">
+                and file_name = #{fileName}
+            </if>
+            <if test="homeworkId != null">
+                and homework_id = #{homeworkId}
+            </if>
+            <if test="fileNameTwo != null and fileNameTwo != ''">
+                and file_name_two = #{fileNameTwo}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into dbo.answer(user_id, content, file_name, homework_id, file_name_two, status)
+        values (#{userId}, #{content}, #{fileName}, #{homeworkId}, #{fileNameTwo}, #{status})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update dbo.answer
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="fileName != null and fileName != ''">
+                file_name = #{fileName},
+            </if>
+            <if test="homeworkId != null">
+                homework_id = #{homeworkId},
+            </if>
+            <if test="fileNameTwo != null and fileNameTwo != ''">
+                file_name_two = #{fileNameTwo},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from dbo.answer where id = #{id}
+    </delete>
+
+</mapper>
